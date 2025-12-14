@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'background': '#000000',      // Pure Black
+              'primary': '#111827',        // Very Dark Grayish Blue for cards
+              'secondary': '#1f2937',      // Dark Grayish Blue for hover
+              'accent': '#22d3ee',         // Neon Cyan (main accent)
+              'accent-pink': '#ec4899',    // Neon Pink (for gradients)
+              'accent-purple': '#a855f7',   // Neon Purple (for galaxy trail)
+              'text-light': '#f3f4f6',      // Off-white for main text
+              'text-dark': '#9ca3af',       // Light gray for secondary text
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['Fira Code', 'monospace'],
+            },
+            keyframes: {
+              typing: {
+                "0%": { width: "0%" },
+                "100%": { width: "100%" }
+              },
+              blink: {
+                "50%": { borderColor: "transparent" }
+              },
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" }
+              },
+              slideInLeft: {
+                "0%": { opacity: 0, transform: "translateX(-100%)" },
+                "100%": { opacity: 1, transform: "translateX(0)" }
+              },
+              slideInRight: {
+                "0%": { opacity: 0, transform: "translateX(100%)" },
+                "100%": { opacity: 1, transform: "translateX(0)" }
+              },
+              pulse: {
+                '0%, 100%': { opacity: 0.4 },
+                '50%': { opacity: 0.7 },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              rotate: {
+                '0%': { transform: 'rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg)' },
+              }
+            },
+            animation: {
+              typing: "typing 2s steps(20, end), blink .75s step-end infinite",
+              fadeInUp: "fadeInUp 1s ease-out forwards",
+              slideInLeft: "slideInLeft 1s ease-out forwards",
+              slideInRight: "slideInRight 1s ease-out forwards",
+              pulse: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              float: 'float 6s ease-in-out infinite',
+              rotate: 'rotate 10s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1"
+  }
+}
+</script>
+  <script type="module" crossorigin src="./assets/index-CXdcOvkc.js"></script>
+</head>
+  <body class="bg-background text-text-light font-sans">
+    <div id="root"></div>
+  </body>
+</html>
