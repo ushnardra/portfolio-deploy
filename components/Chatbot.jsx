@@ -125,6 +125,11 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([{ role: 'assistant', content: GREETING }]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  /* True only while the first question is blocked on the embedding model still
+     downloading. Worth its own label: a cold visitor otherwise stares at a
+     generic "Thinking…" for far longer than the answer actually takes, with no
+     sign that anything is progressing. */
+  const [warming, setWarming] = useState(false);
   /* One-time nudge on the launcher. It is a dot, not a bubble that slides out
      and covers the page — the point is to be noticed, not to interrupt. */
   const [nudge, setNudge] = useState(false);
@@ -140,8 +145,44 @@ const Chatbot = () => {
     return () => clearTimeout(t);
   }, [open]);
 
-  // Warm the model and index the moment the panel opens, so the first question
-  // isn't also paying the download.
+  /* Start fetching the embedding model while the visitor is still reading the
+     page, not when they open the panel.
+
+     Retrieval needs ~25 MB of ONNX weights, and previously that download only
+     began on open — so the very first question waited for the whole thing and
+     sat on "Thinking…" for tens of seconds. Warming during idle time moves that
+     cost off the critical path; by the time anyone clicks, it is usually done.
+
+     requestIdleCallback keeps it behind first paint and the site's own JS, so
+     the landing experience is unchanged. The 2.5s fallback covers Safari, which
+     still lacks rIC. */
+  useEffect(() => {
+    if (open) return; // the open-effect below handles the already-open case
+
+    let cancelled = false;
+    const warm = () => {
+      if (cancelled) return;
+      loadRetriever()
+        .then((m) => m.preload())
+        .catch(() => {});
+    };
+
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(warm, { timeout: 4000 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback?.(id);
+      };
+    }
+    const t = setTimeout(warm, 2500);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+  }, [open]);
+
+  // On open: make sure warming has started (covers a click before idle fired)
+  // and put the cursor in the input.
   useEffect(() => {
     if (!open) return;
     setNudge(false);
@@ -189,8 +230,15 @@ const Chatbot = () => {
       setMessages((prev) => [...prev, { role: 'user', content: question }]);
 
       try {
-        const { retrieve, buildContext } = await loadRetriever();
-        const hits = await retrieve(question);
+        const mod = await loadRetriever();
+        // Only claim to be "getting ready" if the model genuinely has not
+        // finished — on a warm visit this never shows.
+        const cold = !mod.isReady();
+        if (cold) setWarming(true);
+
+        const hits = await mod.retrieve(question);
+        const buildContext = mod.buildContext;
+        if (cold) setWarming(false);
 
         const res = await fetch('/api/chat', {
           method: 'POST',
@@ -218,6 +266,7 @@ const Chatbot = () => {
         ]);
       } finally {
         setBusy(false);
+        setWarming(false); // never leave the "getting ready" label stuck
         inputRef.current?.focus();
       }
     },
@@ -305,7 +354,7 @@ const Chatbot = () => {
                     busy ? 'bg-[var(--sig)] piki-pulse' : 'bg-[var(--ok)]'
                   }`}
                 />
-                {busy ? 'Thinking…' : "Ushnardra's assistant"}
+                {warming ? 'Getting ready…' : busy ? 'Thinking…' : "Ushnardra's assistant"}
               </p>
             </div>
 
@@ -372,7 +421,14 @@ const Chatbot = () => {
                       style={{ animationDelay: `${d * 0.15}s` }}
                     />
                   ))}
-                  <span className="sr-only">PIKI is thinking</span>
+                  {warming && (
+                    <span className="ml-1 text-[0.75rem] text-[var(--t3)]">
+                      warming up, first answer takes a moment
+                    </span>
+                  )}
+                  <span className="sr-only">
+                    {warming ? 'PIKI is getting ready' : 'PIKI is thinking'}
+                  </span>
                 </div>
               </div>
             )}

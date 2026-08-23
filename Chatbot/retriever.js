@@ -43,10 +43,33 @@ function loadEmbedder() {
   return embedPromise;
 }
 
-/** Warm the model + index before the visitor sends anything. */
+/* Whether the embedder has finished loading. The UI reads this to distinguish
+   "downloading a 25 MB model" from "waiting on the language model" — the two
+   feel identical behind a generic spinner, and the first one is the slow one on
+   a cold visit. */
+let ready = false;
+
+export const isReady = () => ready;
+
+/**
+ * Warm the model + index before the visitor sends anything.
+ *
+ * Crucially this runs one throwaway inference. Fetching the weights is only
+ * half the cold cost: ONNX Runtime compiles the graph and allocates its WASM
+ * arena on the FIRST call, which measured ~21s here — dwarfing both the
+ * download and the ~5s language-model call. Without this line the widget looks
+ * loaded and then stalls on the first question anyway.
+ *
+ * `ready` therefore means "a real query will be fast now", not "files present".
+ */
 export function preload() {
   loadIndex();
-  loadEmbedder();
+  loadEmbedder()
+    .then((embed) => embed('warmup', { pooling: 'mean', normalize: true }))
+    .then(() => {
+      ready = true;
+    })
+    .catch(() => {});
 }
 
 function dot(a, b) {
@@ -61,6 +84,7 @@ function dot(a, b) {
  */
 export async function retrieve(question, k = TOP_K) {
   const [index, embed] = await Promise.all([loadIndex(), loadEmbedder()]);
+  ready = true; // covers a question asked before preload() resolved
 
   const out = await embed(question, { pooling: 'mean', normalize: true });
   const q = Array.from(out.data);
