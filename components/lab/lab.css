@@ -1,0 +1,627 @@
+/* ==========================================================================
+   Design Systems Lab
+   --------------------------------------------------------------------------
+   One set of primitives (.lab-panel / .lab-btn / .lab-toggle / .lab-slider /
+   .lab-input / .lab-stat) driven entirely by custom properties. Each design
+   language is a single `.lab-<id>` block that redefines those properties, so
+   adding a ninth style means adding one block here and one entry in
+   labStyles.js — not a ninth copy of the markup.
+
+   Each style deliberately brings its own ground colour: neumorphism only works
+   on a mid-tone surface, brutalism needs a flat saturated one. That is why
+   these panels don't follow the site theme.
+   ========================================================================== */
+
+/* --- Primitive bases ---------------------------------------------------- */
+
+.lab-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: var(--lab-pad, 1.5rem);
+  background: var(--lab-bg);
+  border: var(--lab-border, 1px solid transparent);
+  border-radius: var(--lab-radius, 1rem);
+  box-shadow: var(--lab-shadow, none);
+  color: var(--lab-text, #111);
+  font-family: var(--lab-font, inherit);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.lab-title {
+  font-family: var(--lab-title-font, var(--lab-font, inherit));
+  font-weight: var(--lab-title-weight, 700);
+  letter-spacing: var(--lab-title-tracking, -0.01em);
+  text-transform: var(--lab-title-case, none);
+  color: var(--lab-text);
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+
+.lab-sub {
+  color: var(--lab-text-dim);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin-top: 0.375rem;
+}
+
+.lab-label {
+  display: block;
+  font-family: var(--lab-label-font, var(--lab-font, inherit));
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: var(--lab-label-tracking, 0.06em);
+  text-transform: var(--lab-label-case, uppercase);
+  color: var(--lab-text-dim);
+  margin-bottom: 0.5rem;
+}
+
+/* Button ---------------------------------------------------------------- */
+.lab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--lab-btn-pad, 0.625rem 1.125rem);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: var(--lab-btn-weight, 600);
+  letter-spacing: var(--lab-btn-tracking, 0);
+  text-transform: var(--lab-btn-case, none);
+  cursor: pointer;
+  color: var(--lab-btn-text);
+  background: var(--lab-btn-bg);
+  border: var(--lab-btn-border, var(--lab-border, 1px solid transparent));
+  border-radius: var(--lab-btn-radius, var(--lab-radius, 0.75rem));
+  box-shadow: var(--lab-btn-shadow, none);
+  transition: box-shadow 0.18s ease, transform 0.12s ease, background 0.2s ease,
+    filter 0.2s ease;
+}
+.lab-btn:hover { filter: var(--lab-btn-hover-filter, brightness(1.07)); }
+.lab-btn:active {
+  box-shadow: var(--lab-btn-shadow-active, var(--lab-btn-shadow, none));
+  transform: var(--lab-btn-transform-active, scale(0.985));
+}
+
+.lab-btn--ghost {
+  color: var(--lab-text);
+  background: var(--lab-ghost-bg, transparent);
+  box-shadow: var(--lab-ghost-shadow, none);
+}
+
+/* Toggle ---------------------------------------------------------------- */
+.lab-toggle {
+  position: relative;
+  width: 3.125rem;
+  height: 1.75rem;
+  flex: none;
+  cursor: pointer;
+  border: var(--lab-track-border, var(--lab-border, 1px solid transparent));
+  border-radius: 999px;
+  background: var(--lab-track-bg);
+  box-shadow: var(--lab-track-shadow, none);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.lab-toggle[aria-checked='true'] {
+  background: var(--lab-track-bg-on, var(--lab-accent));
+  box-shadow: var(--lab-track-shadow-on, var(--lab-track-shadow, none));
+}
+.lab-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0.1875rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  translate: 0 -50%;
+  border-radius: 999px;
+  background: var(--lab-knob-bg, #fff);
+  box-shadow: var(--lab-knob-shadow, 0 1px 3px rgb(0 0 0 / 0.3));
+  transition: translate 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lab-toggle[aria-checked='true']::after {
+  translate: 1.375rem -50%;
+  background: var(--lab-knob-bg-on, var(--lab-knob-bg, #fff));
+}
+
+/* Slider ---------------------------------------------------------------- */
+.lab-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 1.5rem;
+  background: transparent;
+  cursor: pointer;
+}
+.lab-slider::-webkit-slider-runnable-track {
+  height: var(--lab-track-h, 0.375rem);
+  border-radius: 999px;
+  background: var(--lab-track-bg);
+  border: var(--lab-track-border, none);
+  box-shadow: var(--lab-track-shadow, none);
+}
+.lab-slider::-moz-range-track {
+  height: var(--lab-track-h, 0.375rem);
+  border-radius: 999px;
+  background: var(--lab-track-bg);
+  border: var(--lab-track-border, none);
+  box-shadow: var(--lab-track-shadow, none);
+}
+.lab-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: calc((var(--lab-track-h, 0.375rem) - 1.125rem) / 2);
+  border-radius: 999px;
+  background: var(--lab-knob-bg, #fff);
+  border: var(--lab-knob-border, none);
+  box-shadow: var(--lab-knob-shadow, 0 1px 3px rgb(0 0 0 / 0.35));
+}
+.lab-slider::-moz-range-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 999px;
+  background: var(--lab-knob-bg, #fff);
+  border: var(--lab-knob-border, none);
+  box-shadow: var(--lab-knob-shadow, 0 1px 3px rgb(0 0 0 / 0.35));
+}
+
+/* Input ----------------------------------------------------------------- */
+.lab-input {
+  width: 100%;
+  padding: var(--lab-input-pad, 0.625rem 0.875rem);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: var(--lab-text);
+  background: var(--lab-input-bg, var(--lab-surface));
+  border: var(--lab-input-border, var(--lab-border, 1px solid transparent));
+  border-radius: var(--lab-input-radius, var(--lab-radius, 0.75rem));
+  box-shadow: var(--lab-input-shadow, none);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.lab-input::placeholder { color: var(--lab-text-dim); opacity: 0.75; }
+.lab-input:focus {
+  outline: none;
+  box-shadow: var(--lab-input-shadow-focus, var(--lab-input-shadow, none));
+  border-color: var(--lab-accent);
+}
+
+/* Stat tile ------------------------------------------------------------- */
+.lab-stat {
+  padding: 0.875rem 1rem;
+  background: var(--lab-surface);
+  border: var(--lab-tile-border, var(--lab-border, 1px solid transparent));
+  border-radius: var(--lab-tile-radius, var(--lab-radius, 0.75rem));
+  box-shadow: var(--lab-tile-shadow, none);
+}
+.lab-stat b {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--lab-stat-color, var(--lab-text));
+  font-variant-numeric: tabular-nums;
+}
+.lab-stat span {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--lab-text-dim);
+}
+
+/* ==========================================================================
+   1. Glassmorphism
+   ========================================================================== */
+.lab-glass {
+  --lab-bg: rgb(255 255 255 / 0.08);
+  --lab-surface: rgb(255 255 255 / 0.1);
+  --lab-border: 1px solid rgb(255 255 255 / 0.18);
+  --lab-radius: 1.125rem;
+  --lab-shadow: 0 8px 32px rgb(0 0 0 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.25);
+  --lab-text: #f4f7fb;
+  --lab-text-dim: rgb(244 247 251 / 0.62);
+  --lab-accent: #67e8f9;
+
+  --lab-btn-bg: rgb(255 255 255 / 0.16);
+  --lab-btn-text: #fff;
+  --lab-btn-border: 1px solid rgb(255 255 255 / 0.26);
+  --lab-btn-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 4px 14px rgb(0 0 0 / 0.22);
+  --lab-btn-shadow-active: inset 0 2px 6px rgb(0 0 0 / 0.28);
+  --lab-btn-radius: 999px;
+
+  --lab-track-bg: rgb(255 255 255 / 0.14);
+  --lab-track-bg-on: rgb(103 232 249 / 0.55);
+  --lab-track-border: 1px solid rgb(255 255 255 / 0.2);
+  --lab-knob-bg: #fff;
+  --lab-knob-shadow: 0 2px 6px rgb(0 0 0 / 0.3);
+
+  --lab-input-bg: rgb(255 255 255 / 0.07);
+  --lab-input-shadow-focus: 0 0 0 3px rgb(103 232 249 / 0.22);
+
+  --lab-stat-color: #fff;
+
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+}
+/* --- Grounds -------------------------------------------------------------
+   Several of these styles are only legible on the right surface. Neumorphism
+   in particular defines its shape purely through shadows cast on a ground of
+   the *same* colour — put it on the site's near-black and the light shadow
+   turns into a glowing halo, which is not what the style is. So each language
+   brings its own backdrop. */
+
+/* Glass needs something behind it to actually be glass. */
+.lab-glass-ground {
+  background:
+    radial-gradient(circle at 15% 20%, #6d28d9 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, #0891b2 0%, transparent 45%),
+    radial-gradient(circle at 60% 90%, #db2777 0%, transparent 45%),
+    #0b1020;
+}
+/* Same colour as the panel: the shadows are the only thing defining it. */
+.lab-neu-ground    { background: #e4e9f2; }
+.lab-clay-ground   { background: #e7dbff; }
+.lab-brutal-ground { background: #f4f1e8; }
+.lab-skeu-ground   { background: linear-gradient(#98a1b2, #7c8798); }
+.lab-aurora-ground { background: #06070f; }
+.lab-bento-ground  { background: #eef0f3; }
+.lab-cyber-ground  { background: #010806; }
+
+/* ==========================================================================
+   2. Neumorphism  (see the a11y note in labStyles.js)
+   ========================================================================== */
+.lab-neu {
+  --lab-bg: #e4e9f2;
+  --lab-surface: #e4e9f2;
+  --lab-border: 1px solid rgb(255 255 255 / 0.6);
+  --lab-radius: 1.375rem;
+  --lab-shadow: 9px 9px 20px #c2c8d4, -9px -9px 20px #ffffff;
+  --lab-text: #3d4759;
+  --lab-text-dim: #8a93a5;
+  --lab-accent: #5b7cfa;
+
+  --lab-btn-bg: #e4e9f2;
+  --lab-btn-text: #46506b;
+  --lab-btn-border: none;
+  --lab-btn-radius: 0.875rem;
+  --lab-btn-shadow: 5px 5px 12px #c2c8d4, -5px -5px 12px #ffffff;
+  --lab-btn-shadow-active: inset 4px 4px 9px #c2c8d4, inset -4px -4px 9px #ffffff;
+  --lab-btn-transform-active: none;
+  --lab-btn-hover-filter: none;
+
+  --lab-track-bg: #e4e9f2;
+  --lab-track-bg-on: #e4e9f2;
+  --lab-track-border: none;
+  --lab-track-shadow: inset 3px 3px 7px #c2c8d4, inset -3px -3px 7px #ffffff;
+  --lab-track-h: 0.5rem;
+  --lab-knob-bg: #eef2f8;
+  --lab-knob-bg-on: #5b7cfa;
+  --lab-knob-shadow: 3px 3px 7px #c2c8d4, -2px -2px 5px #ffffff;
+
+  --lab-input-bg: #e4e9f2;
+  --lab-input-border: none;
+  --lab-input-radius: 0.875rem;
+  --lab-input-shadow: inset 4px 4px 9px #c2c8d4, inset -4px -4px 9px #ffffff;
+  --lab-input-shadow-focus: inset 5px 5px 11px #c2c8d4, inset -5px -5px 11px #ffffff;
+
+  --lab-tile-shadow: inset 3px 3px 8px #c2c8d4, inset -3px -3px 8px #ffffff;
+  --lab-tile-border: none;
+  --lab-stat-color: #35405a;
+}
+
+/* ==========================================================================
+   3. Claymorphism
+   ========================================================================== */
+.lab-clay {
+  --lab-bg: #f3ecff;
+  --lab-surface: #ffffff;
+  --lab-border: none;
+  --lab-radius: 2rem;
+  --lab-shadow: 0 18px 34px -10px rgb(109 40 217 / 0.3),
+    inset -7px -7px 16px rgb(255 255 255 / 0.85),
+    inset 7px 7px 16px rgb(109 40 217 / 0.14);
+  --lab-text: #40277a;
+  --lab-text-dim: #8b7ab5;
+  --lab-accent: #8b5cf6;
+  --lab-pad: 1.75rem;
+
+  --lab-btn-bg: #8b5cf6;
+  --lab-btn-text: #ffffff;
+  --lab-btn-border: none;
+  --lab-btn-radius: 1.25rem;
+  --lab-btn-pad: 0.75rem 1.375rem;
+  --lab-btn-shadow: 0 9px 0 0 #6d28d9, 0 14px 22px -6px rgb(109 40 217 / 0.5),
+    inset -3px -3px 10px rgb(76 29 149 / 0.35), inset 3px 3px 10px rgb(255 255 255 / 0.4);
+  --lab-btn-shadow-active: 0 3px 0 0 #6d28d9, 0 5px 10px -3px rgb(109 40 217 / 0.5),
+    inset -2px -2px 8px rgb(76 29 149 / 0.3);
+  --lab-btn-transform-active: translateY(6px);
+
+  --lab-track-bg: #e3d7fb;
+  --lab-track-bg-on: #8b5cf6;
+  --lab-track-border: none;
+  --lab-track-shadow: inset 3px 3px 7px rgb(109 40 217 / 0.22),
+    inset -2px -2px 6px rgb(255 255 255 / 0.8);
+  --lab-track-h: 0.625rem;
+  --lab-knob-bg: #ffffff;
+  --lab-knob-shadow: 0 4px 8px rgb(109 40 217 / 0.35);
+
+  --lab-input-bg: #ffffff;
+  --lab-input-radius: 1.125rem;
+  --lab-input-shadow: inset 4px 4px 10px rgb(109 40 217 / 0.13),
+    inset -3px -3px 8px rgb(255 255 255 / 0.9);
+  --lab-input-shadow-focus: inset 4px 4px 10px rgb(109 40 217 / 0.2), 0 0 0 4px rgb(139 92 246 / 0.2);
+
+  --lab-tile-radius: 1.25rem;
+  --lab-tile-shadow: 0 8px 16px -6px rgb(109 40 217 / 0.24),
+    inset -3px -3px 9px rgb(255 255 255 / 0.9);
+  --lab-stat-color: #5b21b6;
+}
+
+/* ==========================================================================
+   4. Neubrutalism
+   ========================================================================== */
+.lab-brutal {
+  --lab-bg: #ffe94d;
+  --lab-surface: #ffffff;
+  --lab-border: 3px solid #0a0a0a;
+  --lab-radius: 0.375rem;
+  --lab-shadow: 8px 8px 0 0 #0a0a0a;
+  --lab-text: #0a0a0a;
+  --lab-text-dim: #47474a;
+  --lab-accent: #2563eb;
+  --lab-title-weight: 900;
+  --lab-title-case: uppercase;
+  --lab-title-tracking: -0.01em;
+  --lab-label-tracking: 0.1em;
+
+  --lab-btn-bg: #2563eb;
+  --lab-btn-text: #ffffff;
+  --lab-btn-border: 3px solid #0a0a0a;
+  --lab-btn-radius: 0.375rem;
+  --lab-btn-weight: 800;
+  --lab-btn-case: uppercase;
+  --lab-btn-tracking: 0.04em;
+  --lab-btn-shadow: 5px 5px 0 0 #0a0a0a;
+  --lab-btn-shadow-active: 1px 1px 0 0 #0a0a0a;
+  --lab-btn-transform-active: translate(4px, 4px);
+  --lab-btn-hover-filter: none;
+  --lab-ghost-bg: #ffffff;
+  --lab-ghost-shadow: 5px 5px 0 0 #0a0a0a;
+
+  --lab-track-bg: #ffffff;
+  --lab-track-bg-on: #22c55e;
+  --lab-track-border: 3px solid #0a0a0a;
+  --lab-track-shadow: 3px 3px 0 0 #0a0a0a;
+  --lab-track-h: 0.75rem;
+  --lab-knob-bg: #0a0a0a;
+  --lab-knob-shadow: none;
+
+  --lab-input-bg: #ffffff;
+  --lab-input-border: 3px solid #0a0a0a;
+  --lab-input-radius: 0.375rem;
+  --lab-input-shadow: 4px 4px 0 0 #0a0a0a;
+  --lab-input-shadow-focus: 2px 2px 0 0 #2563eb;
+
+  --lab-tile-border: 3px solid #0a0a0a;
+  --lab-tile-radius: 0.375rem;
+  --lab-tile-shadow: 4px 4px 0 0 #0a0a0a;
+}
+.lab-brutal .lab-toggle::after { border-radius: 0.25rem; }
+
+/* ==========================================================================
+   5. Skeuomorphism
+   ========================================================================== */
+.lab-skeu {
+  --lab-bg: linear-gradient(#d8dde6, #b9c1cf);
+  --lab-surface: linear-gradient(#f4f6fa, #dfe4ec);
+  --lab-border: 1px solid #7d8798;
+  --lab-radius: 0.75rem;
+  --lab-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75), 0 3px 8px rgb(20 26 38 / 0.4);
+  --lab-text: #232a36;
+  --lab-text-dim: #5d6675;
+  --lab-accent: #2f6fd0;
+
+  --lab-btn-bg: linear-gradient(#5b95e8, #2f6fd0 52%, #2861bd);
+  --lab-btn-text: #ffffff;
+  --lab-btn-border: 1px solid #1f4d99;
+  --lab-btn-radius: 0.5rem;
+  --lab-btn-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -1px 0 rgb(0 0 0 / 0.2), 0 2px 4px rgb(20 26 38 / 0.4);
+  --lab-btn-shadow-active: inset 0 3px 7px rgb(0 0 0 / 0.45);
+  --lab-btn-transform-active: translateY(1px);
+
+  --lab-track-bg: linear-gradient(#adb5c3, #c9cfda);
+  --lab-track-bg-on: linear-gradient(#2861bd, #5b95e8);
+  --lab-track-border: 1px solid #7d8798;
+  --lab-track-shadow: inset 0 2px 4px rgb(0 0 0 / 0.35);
+  --lab-track-h: 0.625rem;
+  --lab-knob-bg: linear-gradient(#ffffff, #d6dbe4);
+  --lab-knob-border: 1px solid #7d8798;
+  --lab-knob-shadow: 0 1px 3px rgb(0 0 0 / 0.45), inset 0 1px 0 #fff;
+
+  --lab-input-bg: linear-gradient(#e8ebf1, #fbfcfe);
+  --lab-input-radius: 0.5rem;
+  --lab-input-shadow: inset 0 2px 4px rgb(0 0 0 / 0.22);
+  --lab-input-shadow-focus: inset 0 2px 4px rgb(0 0 0 / 0.22), 0 0 0 3px rgb(47 111 208 / 0.35);
+
+  --lab-tile-radius: 0.5rem;
+  --lab-tile-shadow: inset 0 1px 0 #fff, 0 1px 3px rgb(20 26 38 / 0.3);
+
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
+}
+/* The gloss sweep across the top half — the defining skeuomorphic tell. */
+.lab-skeu::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 46%;
+  background: linear-gradient(rgb(255 255 255 / 0.42), rgb(255 255 255 / 0));
+  pointer-events: none;
+  z-index: 0;
+}
+.lab-skeu > * { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   6. Aurora / gradient mesh
+   ========================================================================== */
+.lab-aurora {
+  --lab-bg: rgb(9 12 24 / 0.72);
+  --lab-surface: rgb(255 255 255 / 0.06);
+  --lab-border: 1px solid rgb(255 255 255 / 0.12);
+  --lab-radius: 1.25rem;
+  --lab-shadow: 0 20px 50px -18px rgb(0 0 0 / 0.75);
+  --lab-text: #f3f0ff;
+  --lab-text-dim: rgb(243 240 255 / 0.6);
+  --lab-accent: #c084fc;
+
+  --lab-btn-bg: linear-gradient(105deg, #8b5cf6, #ec4899 55%, #f59e0b);
+  --lab-btn-text: #ffffff;
+  --lab-btn-border: none;
+  --lab-btn-radius: 999px;
+  --lab-btn-shadow: 0 8px 24px -6px rgb(192 132 252 / 0.6);
+  --lab-btn-shadow-active: 0 3px 10px -4px rgb(192 132 252 / 0.6);
+
+  --lab-track-bg: rgb(255 255 255 / 0.12);
+  --lab-track-bg-on: linear-gradient(90deg, #8b5cf6, #ec4899);
+  --lab-track-border: none;
+  --lab-knob-bg: #ffffff;
+  --lab-knob-shadow: 0 2px 8px rgb(0 0 0 / 0.45);
+
+  --lab-input-bg: rgb(255 255 255 / 0.05);
+  --lab-input-shadow-focus: 0 0 0 3px rgb(192 132 252 / 0.3);
+
+  --lab-stat-color: #ffffff;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+/* Three slow-drifting blobs behind the panel content. */
+.lab-aurora::before {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 28% 32%, #8b5cf6 0%, transparent 42%),
+    radial-gradient(circle at 72% 24%, #ec4899 0%, transparent 42%),
+    radial-gradient(circle at 52% 80%, #22d3ee 0%, transparent 42%);
+  filter: blur(38px);
+  opacity: 0.55;
+  animation: auroraDrift 16s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  from { transform: translate3d(-5%, -3%, 0) scale(1); }
+  to   { transform: translate3d(5%, 4%, 0) scale(1.12); }
+}
+
+/* ==========================================================================
+   7. Bento / Swiss minimal
+   ========================================================================== */
+.lab-bento {
+  --lab-bg: #ffffff;
+  --lab-surface: #f6f7f9;
+  --lab-border: 1px solid #e3e5ea;
+  --lab-radius: 0.625rem;
+  --lab-shadow: none;
+  --lab-text: #0d1117;
+  --lab-text-dim: #6a7280;
+  --lab-accent: #111318;
+  --lab-title-weight: 600;
+  --lab-title-tracking: -0.02em;
+  --lab-label-font: 'JetBrains Mono', ui-monospace, monospace;
+  --lab-label-tracking: 0.12em;
+
+  --lab-btn-bg: #111318;
+  --lab-btn-text: #ffffff;
+  --lab-btn-border: 1px solid #111318;
+  --lab-btn-radius: 0.5rem;
+  --lab-btn-weight: 500;
+  --lab-btn-shadow: none;
+  --lab-btn-shadow-active: none;
+  --lab-btn-transform-active: none;
+  --lab-ghost-bg: #ffffff;
+
+  --lab-track-bg: #e3e5ea;
+  --lab-track-bg-on: #111318;
+  --lab-track-border: none;
+  --lab-track-h: 0.25rem;
+  --lab-knob-bg: #ffffff;
+  --lab-knob-border: 1px solid #c9ccd3;
+  --lab-knob-shadow: 0 1px 2px rgb(13 17 23 / 0.14);
+
+  --lab-input-bg: #ffffff;
+  --lab-input-radius: 0.5rem;
+  --lab-input-shadow-focus: 0 0 0 2px rgb(17 19 24 / 0.14);
+
+  --lab-tile-radius: 0.5rem;
+}
+
+/* ==========================================================================
+   8. Cyber / terminal
+   ========================================================================== */
+.lab-cyber {
+  --lab-bg: #03110c;
+  --lab-surface: rgb(0 255 156 / 0.05);
+  --lab-border: 1px solid rgb(0 255 156 / 0.32);
+  --lab-radius: 0.125rem;
+  --lab-shadow: 0 0 24px rgb(0 255 156 / 0.16), inset 0 0 40px rgb(0 255 156 / 0.05);
+  --lab-text: #7dffc4;
+  --lab-text-dim: rgb(125 255 196 / 0.55);
+  --lab-accent: #00ff9c;
+  --lab-font: 'JetBrains Mono', ui-monospace, monospace;
+  --lab-title-case: uppercase;
+  --lab-title-tracking: 0.05em;
+  --lab-title-weight: 700;
+  --lab-label-tracking: 0.16em;
+
+  --lab-btn-bg: rgb(0 255 156 / 0.13);
+  --lab-btn-text: #00ff9c;
+  --lab-btn-border: 1px solid #00ff9c;
+  --lab-btn-radius: 0.125rem;
+  --lab-btn-case: uppercase;
+  --lab-btn-tracking: 0.12em;
+  --lab-btn-shadow: 0 0 14px rgb(0 255 156 / 0.35), inset 0 0 14px rgb(0 255 156 / 0.12);
+  --lab-btn-shadow-active: inset 0 0 22px rgb(0 255 156 / 0.4);
+  --lab-btn-transform-active: none;
+
+  --lab-track-bg: rgb(0 255 156 / 0.12);
+  --lab-track-bg-on: rgb(0 255 156 / 0.32);
+  --lab-track-border: 1px solid rgb(0 255 156 / 0.4);
+  --lab-track-h: 0.375rem;
+  --lab-knob-bg: #00ff9c;
+  --lab-knob-shadow: 0 0 12px #00ff9c;
+
+  --lab-input-bg: rgb(0 255 156 / 0.05);
+  --lab-input-radius: 0.125rem;
+  --lab-input-shadow-focus: 0 0 0 2px rgb(0 255 156 / 0.3);
+
+  --lab-tile-radius: 0.125rem;
+  --lab-stat-color: #00ff9c;
+}
+/* CRT scanlines */
+.lab-cyber::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    rgb(0 255 156 / 0.055) 0 1px,
+    transparent 1px 3px
+  );
+  z-index: 2;
+}
+
+/* --- Dimension demo ----------------------------------------------------- */
+@keyframes cubeSpin {
+  from { transform: rotateX(-16deg) rotateY(0deg); }
+  to   { transform: rotateX(-16deg) rotateY(360deg); }
+}
+
+/* --- Reduced motion ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .lab-aurora::before { animation: none; }
+  /* Hold the cube at a readable angle rather than freezing mid-face. */
+  [style*='cubeSpin'] { animation: none !important; transform: rotateX(-16deg) rotateY(-28deg); }
+}

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#3b9df8"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6366f1" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0 H0 V48" fill="none" stroke="#ffffff" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="gridMask">
+      <rect width="1200" height="630" fill="url(#fade)"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#07090d"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridMask)"/>
+  <ellipse cx="150" cy="70" rx="440" ry="330" fill="url(#glowA)"/>
+  <ellipse cx="1080" cy="600" rx="430" ry="320" fill="url(#glowB)"/>
+
+  <!-- Logo mark -->
+  <g transform="translate(80,74)">
+    <rect width="64" height="64" rx="15" fill="#0c1016" stroke="url(#brand)" stroke-opacity="0.4" stroke-width="2"/>
+    <!-- Fluid F, identical geometry to public/favicon.svg so the tab icon and
+         the share card carry the same mark. Was a two-stroke W from the old
+         brand. -->
+    <path d="M20 16 C20 16, 44 14, 46 22 C48 30, 34 28, 34 28" fill="none" stroke="url(#brand)" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M22 16 L22 48" fill="none" stroke="url(#brand)" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M22 33 C30 33, 38 30, 42 36" fill="none" stroke="url(#brand)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="46" cy="22" r="3.5" fill="url(#brand)" opacity="0.9"/>
+  </g>
+  <text x="162" y="118" fill="#f2f5f8" font-size="34" font-weight="700" letter-spacing="4">FLUIDWEBSOFT</text>
+
+  <!-- Eyebrow -->
+  <text x="80" y="228" fill="#6b7885" font-size="19" font-weight="500" letter-spacing="4.5"
+        font-family="JetBrains Mono, Consolas, monospace">AI · 3D · E-COMMERCE · SAAS</text>
+
+  <!-- Isometric wireframe cube — balances the composition, hints at the 3D work -->
+  <g transform="translate(915,300)" fill="none" stroke="url(#brand)" stroke-opacity="0.5" stroke-width="2.5"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 -150 L130 -75 L130 75 L0 150 L-130 75 L-130 -75 Z"/>
+    <path d="M0 -150 L0 0 L130 75"/>
+    <path d="M0 0 L-130 75"/>
+    <path d="M-130 -75 L0 0 L130 -75" stroke-opacity="0.26"/>
+  </g>
+
+  <!-- Headline -->
+  <text x="80" y="316" fill="#f2f5f8" font-size="76" font-weight="700" letter-spacing="-2.6">Engineered,</text>
+  <text x="80" y="400" font-size="76" font-weight="700" letter-spacing="-2.6" fill="url(#brand)">not templated.</text>
+
+  <!-- Supporting line -->
+  <text x="80" y="462" fill="#9aa8b6" font-size="25" font-weight="400">Free discovery call · fixed-scope proposals · weekly updates</text>
+
+  <!-- Tech pills -->
+  <g font-size="17" font-weight="500" font-family="JetBrains Mono, Consolas, monospace">
+    <g transform="translate(80,516)">
+      <rect width="112" height="42" rx="21" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.11"/>
+      <text x="56" y="27" fill="#9aa8b6" text-anchor="middle">React</text>
+    </g>
+    <g transform="translate(204,516)">
+      <rect width="122" height="42" rx="21" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.11"/>
+      <text x="61" y="27" fill="#9aa8b6" text-anchor="middle">Three.js</text>
+    </g>
+    <g transform="translate(338,516)">
+      <rect width="100" height="42" rx="21" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.11"/>
+      <text x="50" y="27" fill="#9aa8b6" text-anchor="middle">AI/ML</text>
+    </g>
+    <g transform="translate(450,516)">
+      <rect width="126" height="42" rx="21" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.11"/>
+      <text x="63" y="27" fill="#9aa8b6" text-anchor="middle">Next.js</text>
+    </g>
+    <g transform="translate(588,516)">
+      <rect width="112" height="42" rx="21" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.11"/>
+      <text x="56" y="27" fill="#9aa8b6" text-anchor="middle">Django</text>
+    </g>
+  </g>
+
+  <!-- Corner locale -->
+  <text x="1120" y="556" fill="#6b7885" font-size="18" text-anchor="end"
+        font-family="JetBrains Mono, Consolas, monospace">Kolkata, IN</text>
+
+  <rect x="0" y="626" width="1200" height="4" fill="url(#brand)"/>
+</svg>

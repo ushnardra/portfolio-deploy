@@ -1,91 +1,135 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Developer Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ===================================================================
+         Canonical host: https://fluidwebsoft.netlify.app
+         If a custom domain is added later, replace it here AND in
+         public/sitemap.xml and public/robots.txt — canonical, og:url and
+         og:image must all be absolute and must all agree, or link previews
+         and search indexing break.
+         =================================================================== -->
+
+    <!-- Brand alone is a weak search result: it only wins queries that already
+         know the name. The suffix is what a stranger searching for the service
+         actually matches on. -->
+    <title>Fluidwebsoft — Software Solutions &amp; AI Integration | Kolkata</title>
+    <meta
+      name="description"
+      content="Fluidwebsoft — software solutions from Kolkata. AI integration, web engineering, e-commerce platforms and SaaS products. We solve problems and make your existing solutions better. Free discovery call, fixed-scope proposals."
+    />
+    <link rel="canonical" href="https://fluidwebsoft.netlify.app/" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="theme-color" content="#07090d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfc" media="(prefers-color-scheme: light)" />
+
+    <!-- Open Graph — this is what WhatsApp and LinkedIn render -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluidwebsoft" />
+    <meta property="og:url" content="https://fluidwebsoft.netlify.app/" />
+    <meta property="og:title" content="Fluidwebsoft — Software Solutions & AI Integration" />
+    <meta
+      property="og:description"
+      content="Software solutions from Kolkata. AI integration, web engineering, e-commerce and SaaS. We solve problems and improve your existing systems. Free discovery call, fixed-scope proposals."
+    />
+    <meta property="og:image" content="https://fluidwebsoft.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluidwebsoft — Software solutions and AI integration" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fluidwebsoft — Software Solutions & AI Integration" />
+    <meta
+      name="twitter:description"
+      content="Software solutions from Kolkata. AI integration, web engineering, e-commerce and SaaS. We solve problems and improve your existing systems. Free discovery call, fixed-scope proposals."
+    />
+    <meta name="twitter:image" content="https://fluidwebsoft.netlify.app/og-image.png" />
+
+    <!-- Fonts are self-hosted (see the @font-face block in index.css), so there
+         is no third-party stylesheet blocking render. These two are used above
+         the fold, so fetch them in parallel with the CSS rather than waiting for
+         the stylesheet to be parsed first. JetBrains Mono is not preloaded — it
+         is only used for small labels. -->
+    <link
+      rel="preload"
+      href="/fonts/bricolage-grotesque-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Apply the saved theme before first paint so there is no flash.
+         No stored value = follow the OS, handled purely in CSS. -->
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'background': '#000000',      // Pure Black
-              'primary': '#111827',        // Very Dark Grayish Blue for cards
-              'secondary': '#1f2937',      // Dark Grayish Blue for hover
-              'accent': '#22d3ee',         // Neon Cyan (main accent)
-              'accent-pink': '#ec4899',    // Neon Pink (for gradients)
-              'accent-purple': '#a855f7',   // Neon Purple (for galaxy trail)
-              'text-light': '#f3f4f6',      // Off-white for main text
-              'text-dark': '#9ca3af',       // Light gray for secondary text
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['Fira Code', 'monospace'],
-            },
-            keyframes: {
-              typing: {
-                "0%": { width: "0%" },
-                "100%": { width: "100%" }
-              },
-              blink: {
-                "50%": { borderColor: "transparent" }
-              },
-              fadeInUp: {
-                "0%": { opacity: 0, transform: "translateY(20px)" },
-                "100%": { opacity: 1, transform: "translateY(0)" }
-              },
-              slideInLeft: {
-                "0%": { opacity: 0, transform: "translateX(-100%)" },
-                "100%": { opacity: 1, transform: "translateX(0)" }
-              },
-              slideInRight: {
-                "0%": { opacity: 0, transform: "translateX(100%)" },
-                "100%": { opacity: 1, transform: "translateX(0)" }
-              },
-              pulse: {
-                '0%, 100%': { opacity: 0.4 },
-                '50%': { opacity: 0.7 },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-10px)' },
-              },
-              rotate: {
-                '0%': { transform: 'rotate(0deg)' },
-                '100%': { transform: 'rotate(360deg)' },
-              }
-            },
-            animation: {
-              typing: "typing 2s steps(20, end), blink .75s step-end infinite",
-              fadeInUp: "fadeInUp 1s ease-out forwards",
-              slideInLeft: "slideInLeft 1s ease-out forwards",
-              slideInRight: "slideInRight 1s ease-out forwards",
-              pulse: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              float: 'float 6s ease-in-out infinite',
-              rotate: 'rotate 10s linear infinite',
-            }
+      (function () {
+        try {
+          var t = localStorage.getItem('fluidwebsoft-theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
           }
+        } catch (e) {
+          /* private mode — fall back to the OS preference */
         }
+      })();
+    </script>
+
+    <!-- Structured data: lets Google show this as a real business -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "@id": "https://fluidwebsoft.netlify.app/#business",
+        "name": "Fluidwebsoft",
+        "description": "Software solutions provider specialising in AI integration, web engineering, e-commerce platforms and SaaS products. We solve problems and make your existing solutions better.",
+        "url": "https://fluidwebsoft.netlify.app/",
+        "email": "ushnardra9999@gmail.com",
+        "telephone": "+91-9330497299",
+        "priceRange": "Quoted per project after a discovery call",
+        "areaServed": "Worldwide",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kolkata",
+          "addressRegion": "West Bengal",
+          "addressCountry": "IN"
+        },
+        "founder": {
+          "@type": "Person",
+          "name": "Ushnardra Ghosh",
+          "jobTitle": "Software Solutions Engineer",
+          "sameAs": [
+            "https://github.com/ushnardra",
+            "https://www.linkedin.com/in/ushnardra-ghosh/"
+          ]
+        },
+        "knowsAbout": [
+          "React", "Next.js", "Three.js", "WebGL", "Node.js", "Django",
+          "Machine Learning", "Explainable AI", "E-commerce", "SaaS"
+        ],
+        "makesOffer": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI-Integrated Web Applications" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "3D & Immersive Websites" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-Commerce Development" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SaaS Platform Development" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ERP Software Development" } }
+        ]
       }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
-    "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react": "https://aistudiocdn.com/react@^19.1.1"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body class="bg-background text-text-light font-sans">
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:font-semibold focus:text-surface-0"
+    >
+      Skip to content
+    </a>
     <div id="root"></div>
     <script type="module" src="/index.jsx"></script>
   </body>

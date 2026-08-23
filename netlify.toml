@@ -1,0 +1,27 @@
+[build]
+  # Vite only — NOT `npm run build`.
+  #
+  # `npm run build` also regenerates public/chatbot-index.json, which downloads
+  # ~25 MB of ONNX model from the Hugging Face CDN. Doing that inside a CI build
+  # means every deploy depends on a third-party CDN being fast and un-throttled,
+  # and a failure there fails the whole site deploy over a file that did not
+  # change. The index is committed instead: run `npm run embeddings` locally
+  # after editing knowledge-base.md and commit the result.
+  command = "npm run build:site"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback. Listed after the function's own /api/chat path, which Netlify
+# resolves first, so the function is not swallowed by this rule.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/chatbot-index.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"

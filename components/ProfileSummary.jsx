@@ -3,15 +3,15 @@ import Section from './common/Section';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const ProfileSummary = () => {
-    const { ref: refLeft, isVisible: isVisibleLeft } = useScrollAnimation();
-    const { ref: refRight, isVisible: isVisibleRight } = useScrollAnimation();
+  const { ref: refLeft, isVisible: isVisibleLeft } = useScrollAnimation();
+  const { ref: refRight, isVisible: isVisibleRight } = useScrollAnimation();
 
   return (
     <Section id="summary" title="Professional Summary" className="bg-primary">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div ref={refLeft} className={`transition-all duration-1000 ${isVisibleLeft ? 'animate-slideInLeft' : 'opacity-0'}`}>
           <p className="text-lg text-text-light leading-relaxed mb-6">
-            A passionate and results-driven Full-Stack Developer with a strong foundation in creating modern, responsive, and user-friendly web applications. Eager to apply my skills in the MERN stack to build innovative solutions. I thrive in collaborative environments and am dedicated to continuous learning and applying new technologies to solve complex problems.
+            A passionate and results-driven Software Solutions Engineer with a strong foundation in web engineering, AI integration, and building systems that solve real problems. Specialising in making existing solutions smarter, faster and more automated — from custom ML models to scalable platforms. Dedicated to continuous learning and applying emerging technologies to deliver measurable outcomes.
           </p>
           <ul className="space-y-4">
             <li className="flex items-start">

@@ -1,63 +1,39 @@
-// src/data.js
+// src/data.js — Fluidwebsoft Data
 
-// Profile Summary
-export const profileSummary = `
-A passionate full-stack developer with a strong foundation 
-in creating modern, responsive, and user-friendly web applications.
-`;
+// Agency Info
+export const agencyInfo = {
+  name: 'Fluidwebsoft',
+  tagline: 'Software Solutions & AI Integration',
+  email: 'ushnardra9999@gmail.com',
+  phone: ['+91 9330497299'],
+  whatsapp: ['+919330497299'],
+  location: 'Kolkata, West Bengal, India',
+};
 
-// Technical Skills
-export const technicalSkills = [
-  "React",
-  "JavaScript",
-  "TypeScript",
-  "Node.js",
-  "Express",
-  "MongoDB",
-  "TailwindCSS",
-  "Git/GitHub",
+// Services
+export const services = [
+  'AI-Integrated Projects',
+  '3D & Immersive Websites',
+  'E-Commerce Solutions',
+  'SaaS Platforms',
+  'Portfolio Websites',
+  'Business & Showcase Websites',
 ];
 
-// Soft Skills
-export const softSkills = [
-  "Problem Solving",
-  "Communication",
-  "Team Collaboration",
-  "Adaptability",
-  "Time Management",
+// Tech Stack
+export const techStack = [
+  'React',
+  'Next.js',
+  'Node.js',
+  'Django',
+  'Three.js',
+  'TailwindCSS',
+  'MongoDB',
+  'PostgreSQL',
+  'AWS',
+  'Shopify',
+  'TypeScript',
+  'Python',
+  'AI/ML',
+  'Git/GitHub',
 ];
-
-// Certificates
-export const certificates = [
-  {
-    title: "Frontend Development",
-    issuer: "freeCodeCamp",
-    year: "2023",
-  },
-  {
-    title: "Full-Stack Web Development",
-    issuer: "Udemy",
-    year: "2022",
-  },
-  {
-    title: "Machine Learning Basics",
-    issuer: "Coursera",
-    year: "2021",
-  },
-];
-
-// Projects
-// ✅ Correct (array of objects)
-export const projects = [
-  {
-    title: "Portfolio Website",
-    description: "Built with React + Vite",
-    link: "https://example.com"
-  },
-  {
-    title: "AI Model",
-    description: "Liveness detection using TF.js",
-    link: "https://example.com/ai"
-  }
-];
-

@@ -1,19 +1,29 @@
 {
-  "name": "animated-developer-portfolio",
+  "name": "fluidwebsoft-site",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "node Chatbot/build-embeddings.mjs && vite build",
+    "build:site": "vite build",
+    "preview": "vite preview",
+    "embeddings": "node Chatbot/build-embeddings.mjs",
+    "eval": "node Chatbot/eval.mjs"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@xenova/transformers": "^2.17.2",
+    "lucide-react": "^1.31.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
-    "vite": "^6.2.0",
-    "@vitejs/plugin-react": "^4.2.0"
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^7.3.6"
   }
 }
